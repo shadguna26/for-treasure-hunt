@@ -154,10 +154,10 @@ function checkAnswer() {
     const code = document.getElementById('code').value;
     const output = document.getElementById('output').value.trim();
 
-    // checks for corrected parts:
-    const hasLoop = /for\s*\(\s*int\s+i\s*=\s*0\s*;\s*i\s*<\s*=\s*len\s*\/\s*2\s*;\s*i\+\+\s*\)/m.test(code);
-    const hasSwap = /str\s*\[\s*len\s*-\s*i\s*-\s*1\s*\]/m.test(code); 
-    const hasPrintf = /printf\s*\(\s*"Reversed:\s*%s"\s*,\s*str\s*\)\s*;/m.test(code);
+    // More forgiving checks
+    const hasLoop = code.includes("for(int i = 0; i < len/2; i++)");
+    const hasSwap = code.includes("str[len - i - 1]");
+    const hasPrintf = code.includes('printf("Reversed: %s", str);');
 
     const outputCorrect = (output === "Reversed: ISC");
 
