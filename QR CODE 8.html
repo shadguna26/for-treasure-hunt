@@ -11,7 +11,7 @@ body { margin:0; padding:0; font-family:'Rubik', sans-serif; background: linear-
 h1 { font-size:2.2em; color:#6a11cb; margin-bottom:15px; text-shadow:1px 1px 4px #00000033; }
 p { font-size:18px; margin-bottom:20px; }
 .code-container { margin:20px 0; background:#f0f0f0; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.2); padding:15px; }
-textarea { width:100%; height:250px; font-family:'Roboto Mono', monospace; font-size:16px; padding:15px; border-radius:12px; border:2px solid #6a11cb; background:#fff; color:#333; resize:none; transition:border 0.3s; }
+textarea { width:100%; height:260px; font-family:'Roboto Mono', monospace; font-size:16px; padding:15px; border-radius:12px; border:2px solid #6a11cb; background:#fff; color:#333; resize:none; transition:border 0.3s; }
 textarea:focus { border:2px solid #2575fc; outline:none; }
 .input-container { margin-top:20px; }
 input[type="text"] { width:100%; padding:12px; border-radius:10px; border:2px solid #2575fc; font-size:16px; margin-bottom:15px; }
@@ -28,7 +28,7 @@ input[type="text"] { width:100%; padding:12px; border-radius:10px; border:2px so
 <body>
 <div class="container">
     <h1>Cipher Chase - Problem No. 8</h1>
-    <p>Edit the C code and type the correct output. Once the output is correct, your final clue will appear with confetti!</p>
+    <p>Edit the C code and type the correct output. Once both are correct, your final clue will appear with confetti!</p>
     
     <div class="code-container">
         <label for="code"><strong>C Code (editable, contains errors):</strong></label><br>
@@ -37,12 +37,12 @@ input[type="text"] { width:100%; padding:12px; border-radius:10px; border:2px so
 int main() {
     int a[2][2] = {{1,2},{3,4}};
     int b[2][2] = {{5,6},{7,8}};
-    int c[2][2];
+    int c[2][2] = {0};
 
     for(int i=0;i<2;i++){
         for(int j=0;j<2;j++){
             for(int k=0;k<2;k++){
-                c[i][j] = a[i][k]*b[k][j];  // ❌ overwrites instead of accumulating
+                c[i][j] = a[i][k]*b[k][j]; 
             }
         }
     }
@@ -66,11 +66,11 @@ int main() {
     </div>
 
     <div class="clue" id="clue">
-        ✅ Correct! Congratulations! Your final treasure is here: <strong>CONGRATULATIONS!!! ON COMPLETING ALL THE CODES AND FINDING THE FINAL TREASURE</strong>
+        ✅ Correct! 🎉 Congratulations! <strong>YOU HAVE COMPLETED ALL THE CODES AND FOUND THE FINAL TREASURE!</strong>
     </div>
 
     <div class="error" id="error">
-        ❌ Incorrect! Make sure the output is correct.
+        ❌ Incorrect! Make sure you <em>fix the code</em> and also give the right output.
     </div>
 </div>
 
@@ -92,11 +92,17 @@ function createConfetti(){
 }
 
 function checkAnswer(){
+    const code=document.getElementById('code').value;
     const output=document.getElementById('output').value.trim();
-    // remove all spaces and newlines for comparison
+
+    // ✅ check if participant fixed the bug
+    const codeFixed = code.includes("c[i][j] += a[i][k]*b[k][j];");
+
+    // ✅ normalize output
     const outputNormalized = output.replace(/\s+/g,'');
-    const correctOutput = "Result:19224350"; // normalized
-    if(outputNormalized === correctOutput){
+    const correctOutput = "Result:19224350"; // normalized correct
+
+    if(codeFixed && outputNormalized === correctOutput){
         document.getElementById('clue').style.display="block";
         document.getElementById('error').style.display="none";
         createConfetti();
@@ -108,4 +114,3 @@ function checkAnswer(){
 </script>
 </body>
 </html>
-
